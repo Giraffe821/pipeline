@@ -58,3 +58,17 @@ def Dlpen(redshift, giveAnswerInMeters=False):
         return Dl * Mpc
     else:
         return Dl
+
+
+def get_luminosity(
+    redshift: float,
+    integ_summed: float,
+    sum_noise: float,
+    obs_freq: float,
+) -> tuple:
+    D_L = Dlpen(redshift)
+    L_co = 1.04 * 10 ** (-3) * integ_summed * obs_freq * D_L ** 2
+    L_co_er = 1.04 * 10 ** (-3) * sum_noise * obs_freq * D_L ** 2
+
+    return L_co, L_co_er
+
