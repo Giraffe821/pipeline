@@ -72,3 +72,29 @@ def get_luminosity(
 
     return L_co, L_co_er
 
+
+def get_prime_luminosity(
+    redshift: float,
+    integ_summed: float,
+    sum_noise: float,
+    obs_freq: float,
+) -> tuple:
+    D_L = Dlpen(redshift)
+    L_co_prime = (
+        3.25
+        * 10 ** 7
+        * integ_summed
+        * obs_freq ** (-2)
+        * D_L ** 2
+        * (1 + redshift) ** (-3)
+    )
+    L_co_prime_er = (
+        3.25
+        * 10 ** 7
+        * sum_noise
+        * obs_freq ** (-2)
+        * D_L ** 2
+        * (1 + redshift) ** (-3)
+    )
+
+    return L_co_prime, L_co_prime_er
