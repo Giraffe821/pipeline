@@ -39,13 +39,13 @@ def get_integ_int(
     f_nu = (spec / a_eff) * beamsz ** 2 * spec.ch ** 2 / (1.22 * 10 ** 6)
     integ = ch_wid * f_nu
     masked_integ = integ[mask]
-    integ_summed = np.sum(masked_integ)
+    integ_summed = float(np.sum(masked_integ))
 
     ch_use = ~(mask)
     rms_f = f_nu[ch_use]
     noise_f = rms_f.std("ch")
     integ_noise = ch_wid * np.array(noise_f)
-    sum_noise = integ_noise * math.sqrt(len(masked_integ))
+    sum_noise = float(integ_noise * math.sqrt(len(masked_integ)))
 
     return integ_summed, sum_noise
 
@@ -68,8 +68,8 @@ def get_luminosity(
     obs_freq: float,
 ) -> tuple:
     D_L = Dlpen(redshift)
-    L_co = 1.04 * 10 ** (-3) * integ_summed * obs_freq * D_L ** 2
-    L_co_er = 1.04 * 10 ** (-3) * sum_noise * obs_freq * D_L ** 2
+    L_co = float(1.04 * 10 ** (-3) * integ_summed * obs_freq * D_L ** 2)
+    L_co_er = float(1.04 * 10 ** (-3) * sum_noise * obs_freq * D_L ** 2)
 
     return L_co, L_co_er
 
@@ -81,7 +81,7 @@ def get_prime_luminosity(
     obs_freq: float,
 ) -> tuple:
     D_L = Dlpen(redshift)
-    L_co_prime = (
+    L_co_prime = float(
         3.25
         * 10 ** 7
         * integ_summed
@@ -89,7 +89,7 @@ def get_prime_luminosity(
         * D_L ** 2
         * (1 + redshift) ** (-3)
     )
-    L_co_prime_er = (
+    L_co_prime_er = float(
         3.25
         * 10 ** 7
         * sum_noise
@@ -107,7 +107,7 @@ def convert_CI_to_molecular_mass(
     sum_noise: float,
 ) -> tuple:
     D_L = Dlpen(redshift)
-    M_h2 = (
+    M_h2 = float(
         (1376 / (redshift + 1))
         * D_L ** 2
         * (1 / 3)
@@ -115,7 +115,7 @@ def convert_CI_to_molecular_mass(
         * (1 / 0.5)
         * (integ_summed)
     )
-    M_h2_er = (
+    M_h2_er = float(
         (1376 / (redshift + 1))
         * D_L ** 2
         * (1 / 3)
