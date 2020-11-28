@@ -9,7 +9,6 @@ jupyter = "*"
 jupyterlab = "*"
 flake8 = "*"
 pytest = "*"
-black = "*"
 
 [packages]
 numpy = "*"
@@ -22,6 +21,7 @@ fmflow = "*"
 netcdf4 = "*"
 tqdm = "*"
 scikit-learn = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"
