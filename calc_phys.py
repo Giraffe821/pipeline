@@ -47,3 +47,14 @@ def get_integ_int(
     sum_noise = integ_noise * math.sqrt(len(masked_integ))
 
     return integ_summed, sum_noise
+
+
+def Dlpen(redshift, giveAnswerInMeters=False):
+    from astropy.cosmology import Planck15 as cosmo
+
+    Mpc = 3.0857e22
+    Dl = cosmo.luminosity_distance(redshift).value
+    if giveAnswerInMeters:
+        return Dl * Mpc
+    else:
+        return Dl
