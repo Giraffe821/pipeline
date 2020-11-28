@@ -98,3 +98,29 @@ def get_prime_luminosity(
     )
 
     return L_co_prime, L_co_prime_er
+
+
+def convert_CI_to_molecular_mass(
+    redshift: float,
+    integ_summed: float,
+    sum_noise: float,
+) -> tuple:
+    D_L = Dlpen(redshift)
+    M_h2 = (
+        (1376 / (redshift + 1))
+        * D_L ** 2
+        * (1 / 3)
+        * (1 / 0.793)
+        * (1 / 0.5)
+        * (integ_summed)
+    )
+    M_h2_er = (
+        (1376 / (redshift + 1))
+        * D_L ** 2
+        * (1 / 3)
+        * (1 / 0.793)
+        * (1 / 0.5)
+        * (sum_noise)
+    )
+
+    return M_h2, M_h2_er
