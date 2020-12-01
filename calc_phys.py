@@ -13,13 +13,23 @@ def decide_z(
     rest_freq: float,
 ) -> tuple:
     mask = (maskrange[0] < spec["ch"]) & (spec["ch"] < maskrange[1])
-    nume = spec * spec["ch"]
-    masked_n = nume[mask]
-    weight = np.sum(masked_n)
-    deno = np.sum(spec[mask])
-    obs_freq = float(weight / deno)
+    spec = np.abs(spec)
+    nu_int = spec * spec["ch"]
+    masked_int = nu_int[mask]
+    numer = np.sum(masked_int)
+    denom = np.sum(spec[mask])
+    obs_freq = float(numer / denom)
     redshift = float(rest_freq / obs_freq - 1)
-    return redshift, obs_freq
+
+    ch_use = ~(mask)
+    noise = spec[ch_use]
+    rms = noise.std("ch")
+    obs_freq_er = math.sqrt(
+        np.sum((masked_int["ch"] - obs_freq) ** 2 * rms ** 2) / denom ** 2
+    )
+    redshift_er = float(rest_freq / obs_freq ** 2 * obs_freq_er)
+
+    return redshift, redshift_er, obs_freq
 
 
 def get_integ_int(
@@ -33,9 +43,7 @@ def get_integ_int(
     idx = (4 * math.pi * 1.33 * 10 ** (-4)) * (3.34 * obs_freq)
     a_eff = 0.80 * math.exp(-(idx ** 2))
     mask = (maskrange[0] < spec["ch"]) & (spec["ch"] < maskrange[1])
-    ch_wid = (
-        (2.99 * 10 ** 5) * ((2.5 * 10 ** 9) / 2 ** (15) * chbin) / (obs_freq * 10 ** 9)
-    )
+    ch_wid = (2.99 * 10 ** 5) * (2.5 / 2 ** (15) * chbin) / (obs_freq)
     f_nu = (spec / a_eff) * beamsz ** 2 * spec.ch ** 2 / (1.22 * 10 ** 6)
     integ = ch_wid * f_nu
     masked_integ = integ[mask]
