@@ -55,7 +55,7 @@ def get_integ_int(
     integ_noise = ch_wid * np.array(rms_f)
     sum_noise = float(integ_noise * math.sqrt(len(masked_integ)))
 
-    return integ_summed, sum_noise
+    return integ_summed, sum_noise, rms_f
 
 
 def Dlpen(redshift, giveAnswerInMeters=False):
