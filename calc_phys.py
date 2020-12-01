@@ -50,9 +50,9 @@ def get_integ_int(
     integ_summed = float(np.sum(masked_integ))
 
     ch_use = ~(mask)
-    rms_f = f_nu[ch_use]
-    noise_f = rms_f.std("ch")
-    integ_noise = ch_wid * np.array(noise_f)
+    noise_f = f_nu[ch_use]
+    rms_f = noise_f.std("ch")
+    integ_noise = ch_wid * np.array(rms_f)
     sum_noise = float(integ_noise * math.sqrt(len(masked_integ)))
 
     return integ_summed, sum_noise
