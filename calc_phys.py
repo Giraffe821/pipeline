@@ -45,6 +45,7 @@ def get_integ_int(
     mask = (maskrange[0] < spec["ch"]) & (spec["ch"] < maskrange[1])
     ch_wid = (2.99 * 10 ** 5) * (2.5 / 2 ** (15) * chbin) / (obs_freq)
     f_nu = (spec / a_eff) * beamsz ** 2 * spec.ch ** 2 / (1.22 * 10 ** 6)
+    peak = f_nu.max()
     integ = ch_wid * f_nu
     masked_integ = integ[mask]
     integ_summed = float(np.sum(masked_integ))
@@ -55,7 +56,7 @@ def get_integ_int(
     integ_noise = ch_wid * np.array(rms_f)
     sum_noise = float(integ_noise * math.sqrt(len(masked_integ)))
 
-    return integ_summed, sum_noise, rms_f
+    return integ_summed, sum_noise, rms_f, peak
 
 
 def Dlpen(redshift, giveAnswerInMeters=False):
