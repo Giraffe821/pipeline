@@ -25,7 +25,10 @@ def decide_z(
     noise = spec[ch_use]
     rms = noise.std("ch")
     obs_freq_er = math.sqrt(
-        np.sum((masked_int["ch"] - obs_freq) ** 2 * rms ** 2) / denom ** 2
+        np.sum(masked_int ** 2)
+        / (numer ** 2)
+        * (masked_int["ch"][1] - masked_int["ch"][0])
+        + np.sum((masked_int["ch"] - obs_freq) ** 2 * rms ** 2) / denom ** 2
     )
     redshift_er = float(rest_freq / obs_freq ** 2 * obs_freq_er)
 
