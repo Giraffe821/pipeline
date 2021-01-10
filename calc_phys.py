@@ -24,7 +24,7 @@ def decide_z(
     ch_use = ~(mask)
     noise = spec[ch_use]
     rms = noise.std("ch")
-    if masked_int["ch"][1] - masked_int["ch"][0]:
+    if masked_int["ch"][1] - masked_int["ch"][0] > 0:
         obs_freq_er = math.sqrt(
             np.sum(masked_int ** 2)
             / (numer ** 2)
